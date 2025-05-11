@@ -1,0 +1,308 @@
+<!doctype html>
+
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <link rel="icon" type="image/svg+xml" href="website.svg" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>DDoS-Protection Powered by 3Angle</title>
+        <link rel="stylesheet" href="style.css">
+    <script data-cfasync="false" nonce="66db9358-c79e-40f6-80fe-dc1d74f1fdaa">try{(function(w,d){!function(j,k,l,m){if(j.zaraz)console.error("zaraz is loaded twice");else{j[l]=j[l]||{};j[l].executed=[];j.zaraz={deferred:[],listeners:[]};j.zaraz._v="5850";j.zaraz._n="66db9358-c79e-40f6-80fe-dc1d74f1fdaa";j.zaraz.q=[];j.zaraz._f=function(n){return async function(){var o=Array.prototype.slice.call(arguments);j.zaraz.q.push({m:n,a:o})}};for(const p of["track","set","debug"])j.zaraz[p]=j.zaraz._f(p);j.zaraz.init=()=>{var q=k.getElementsByTagName(m)[0],r=k.createElement(m),s=k.getElementsByTagName("title")[0];s&&(j[l].t=k.getElementsByTagName("title")[0].text);j[l].x=Math.random();j[l].w=j.screen.width;j[l].h=j.screen.height;j[l].j=j.innerHeight;j[l].e=j.innerWidth;j[l].l=j.location.href;j[l].r=k.referrer;j[l].k=j.screen.colorDepth;j[l].n=k.characterSet;j[l].o=(new Date).getTimezoneOffset();if(j.dataLayer)for(const t of Object.entries(Object.entries(dataLayer).reduce(((u,v)=>({...u[1],...v[1]})),{})))zaraz.set(t[0],t[1],{scope:"page"});j[l].q=[];for(;j.zaraz.q.length;){const w=j.zaraz.q.shift();j[l].q.push(w)}r.defer=!0;for(const x of[localStorage,sessionStorage])Object.keys(x||{}).filter((z=>z.startsWith("_zaraz_"))).forEach((y=>{try{j[l]["z_"+y.slice(7)]=JSON.parse(x.getItem(y))}catch{j[l]["z_"+y.slice(7)]=x.getItem(y)}}));r.referrerPolicy="origin";r.src="/cdn-cgi/zaraz/s.js?z="+btoa(encodeURIComponent(JSON.stringify(j[l])));q.parentNode.insertBefore(r,q)};["complete","interactive"].includes(k.readyState)?zaraz.init():j.addEventListener("DOMContentLoaded",zaraz.init)}}(w,d,"zarazData","script");window.zaraz._p=async bs=>new Promise((bt=>{if(bs){bs.e&&bs.e.forEach((bu=>{try{const bv=d.querySelector("script[nonce]"),bw=bv?.nonce||bv?.getAttribute("nonce"),bx=d.createElement("script");bw&&(bx.nonce=bw);bx.innerHTML=bu;bx.onload=()=>{d.head.removeChild(bx)};d.head.appendChild(bx)}catch(by){console.error(`Error executing script: ${bu}\n`,by)}}));Promise.allSettled((bs.f||[]).map((bz=>fetch(bz[0],bz[1]))))}bt()}));zaraz._p({"e":["(function(w,d){})(window,document)"]});})(window,document)}catch(e){throw fetch("/cdn-cgi/zaraz/t"),e;};</script></head>
+
+
+        <script type="module">
+        import { createApp, reactive } from 'https://unpkg.com/petite-vue@0.2.2/dist/petite-vue.es.js'
+
+        const store = reactive({
+            firstCounter: 1,
+            secondCounter: 1,
+            resetFirstCounter() {
+                this.firstCounter = 1
+            },
+            resetSecondCounter() {
+                this.secondCounter = 1
+            },
+            incFirstCounter() {
+                this.firstCounter++
+            },
+            incSecondCounter() {
+                this.secondCounter++
+            }
+        })
+
+        setInterval(() => {
+            store.firstCounter === 1 ? store.incFirstCounter() : store.firstCounter === 2 ? store.incFirstCounter() : store.resetFirstCounter()
+        }, 3000)
+
+        setInterval(() => {
+            store.secondCounter === 1 ? store.incSecondCounter() : store.secondCounter === 2 ? store.incSecondCounter() : store.resetSecondCounter()
+        }, 3000)
+
+        setTimeout(() => {
+            store.firstCounter = 2
+        }, 500)
+
+        setTimeout(() => {
+            store.secondCounter = 2
+        }, 500)
+
+        createApp({
+            store
+        }).mount()
+    </script>
+
+    <!-- Скрипт для проверки браузера -->
+    <script type="text/javascript">
+        // Функция для сбора информации о браузере
+        function collectBrowserInfo() {
+            const info = {
+                // Основная информация
+                userAgent: navigator.userAgent,
+                platform: navigator.platform,
+                language: navigator.language,
+                cookiesEnabled: navigator.cookieEnabled,
+                doNotTrack: navigator.doNotTrack,
+                
+                // Информация о экране
+                screenWidth: screen.width,
+                screenHeight: screen.height,
+                screenDepth: screen.colorDepth,
+                screenAvailWidth: screen.availWidth,
+                screenAvailHeight: screen.availHeight,
+                
+                // Информация о браузере
+                timeZoneOffset: new Date().getTimezoneOffset(),
+                timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+                locale: Intl.DateTimeFormat().resolvedOptions().locale,
+                
+                // Проверка возможностей браузера
+                hasLocalStorage: !!window.localStorage,
+                hasSessionStorage: !!window.sessionStorage,
+                hasWebGL: (function() {
+                    try {
+                        const canvas = document.createElement('canvas');
+                        return !!window.WebGLRenderingContext && 
+                            !!(canvas.getContext('webgl') || canvas.getContext('experimental-webgl'));
+                    } catch(e) {
+                        return false;
+                    }
+                })(),
+                hasTouch: ('ontouchstart' in window) || 
+                          window.DocumentTouch && document instanceof DocumentTouch,
+                hasWebRTC: !!window.RTCPeerConnection,
+                
+                // Проверка поведения браузера
+                hasMoved: false, // Будет обновлено при движении мыши
+                hasClicked: false, // Будет обновлено при клике
+                keyPresses: 0, // Будет обновлено при нажатии клавиш
+                
+                // Временные метки
+                startTime: new Date().getTime(),
+                interactionTime: null,
+                submitTime: null
+            };
+            
+            return info;
+        }
+        
+        // Собираем информацию при загрузке страницы
+        const browserInfo = collectBrowserInfo();
+        
+        // Отслеживаем движение мыши
+        document.addEventListener('mousemove', function() {
+            browserInfo.hasMoved = true;
+        }, {once: true});
+        
+        // Отслеживаем клики
+        document.addEventListener('click', function() {
+            browserInfo.hasClicked = true;
+        }, {once: true});
+        
+        // Отслеживаем нажатия клавиш
+        document.addEventListener('keydown', function() {
+            browserInfo.keyPresses++;
+        });
+        
+        // Функция для вычисления хеша
+        async function sha256(message) {
+            const msgBuffer = new TextEncoder().encode(message);
+            const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+            return hashHex;
+        }
+        
+        // Модифицируем функцию верификации капчи
+        async function verifyCaptcha() {
+            const token = new URLSearchParams(window.location.search).get('token');
+            if (!token) {
+                alert('Ошибка: токен не найден');
+                console.error('Token not found in URL');
+                return;
+            }
+            
+            // Записываем время взаимодействия
+            browserInfo.interactionTime = new Date().getTime();
+            // Вычисляем время на странице до взаимодействия
+            browserInfo.timeOnPage = browserInfo.interactionTime - browserInfo.startTime;
+            
+            // Перед отправкой сохраняем токен в localStorage
+            localStorage.setItem('captchaToken', token);
+            console.log('Verifying captcha with token:', token);
+            
+            // Создаем отпечаток устройства
+            const fingerprint = await createFingerprint();
+            
+            // Записываем время отправки
+            browserInfo.submitTime = new Date().getTime();
+            
+            // Отправляем запрос на сервер для проверки
+            fetch('/verify-captcha', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    token: token,
+                    answer: 'verified',
+                    browserInfo: browserInfo,
+                    fingerprint: fingerprint
+                }),
+                credentials: 'same-origin'
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Server response:', data);
+                if (data.success) {
+                    // Перенаправляем на исходный URL с токеном
+                    window.location.href = 'http://localhost?verified=true&token=' + token;
+                } else {
+                    alert(data.message || 'Ошибка проверки');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Произошла ошибка при проверке');
+            });
+        }
+        
+        // Функция для создания отпечатка устройства
+        async function createFingerprint() {
+            // Собираем все доступные данные для отпечатка
+            const components = [
+                navigator.userAgent,
+                navigator.language,
+                navigator.languages,
+                navigator.platform,
+                navigator.hardwareConcurrency,
+                navigator.deviceMemory,
+                screen.colorDepth,
+                screen.pixelDepth,
+                new Date().getTimezoneOffset(),
+                Intl.DateTimeFormat().resolvedOptions().timeZone,
+                !!navigator.plugins.length,
+                getCanvasFingerprint()
+            ];
+            
+            // Создаем хеш из всех компонентов
+            return await sha256(components.join('###'));
+        }
+        
+        // Функция для получения отпечатка Canvas
+        function getCanvasFingerprint() {
+            try {
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                canvas.width = 200;
+                canvas.height = 50;
+                
+                // Текст с эмодзи и специальными символами
+                ctx.textBaseline = 'top';
+                ctx.font = '14px Arial';
+                ctx.fillStyle = '#f60';
+                ctx.fillRect(125, 1, 62, 20);
+                ctx.fillStyle = '#069';
+                ctx.fillText('🌍 DDoS-Protection', 2, 15);
+                ctx.fillStyle = 'rgba(102, 204, 0, 0.7)';
+                ctx.fillText('🔒 Captcha Verify', 4, 30);
+                
+                return canvas.toDataURL();
+            } catch (e) {
+                return 'canvas-not-supported';
+            }
+        }
+        
+        // Глобальная функция для вызова из HTML
+        window.verifyCaptcha = verifyCaptcha;
+    </script>
+
+    <body>
+        <main class="bg-neutral-950 overflow-hidden flex flex-col gap-20 justify-center items-center h-screen selection:bg-orange-800/10">
+            <div class="flex flex-col justify-center max-w-7xl mx-auto p-16 px-8">
+                <div class="justify-center items-center text-center xl:gap-16">
+                    <div class="grid gap-12 xl:gap-8 items-center general-animation pb-40 md:pb-0">
+
+
+                      <h1 class="text-white text-4xl xl:text-6xl font-bold font-[Raleway]">Additional verification needed</h1>
+                      <p class="hidden lg:block text-neutral-300/60 text-lg xl:text-xl font-medium font-[Raleway] lg:mt-4">Please click on the checkbox.</p>
+                              
+                      <div class="flex justify-center z-20 md:py-8">
+                          <div class="flex gap-6 items-center rounded-xl">
+                              <div class="flex justify-center checkbox-wrapper-4">
+                                      <input v-model="model" class="inp-cbx" id="b5f2f59c9c6c" type="checkbox" onchange="if(this.checked) verifyCaptcha()">
+                                  
+                                        <label class="cbx" for="b5f2f59c9c6c">
+                                        <span>
+                                            <svg width="12px" height="10px">
+                                                <use xlink:href="#check-4" />
+                                            </svg>
+                                        </span> 
+                                      </label>
+                                  
+                                          <svg class="inline-svg">
+                                              <symbol id="check-4" viewbox="0 0 12 10">
+                                                  <polyline points="1.5 6 4.5 9 10.5 1" />
+                                              </symbol>
+                                          </svg>
+                                      </div>
+
+                              <div class="grid justify-start items-start text-left gap-2">
+                                  <p class="text-neutral-300/80 text-lg font-medium font-[Raleway]">I'm not a robot</p>
+                                  <p class="text-neutral-300/50 font-normal font-[Raleway]">Click to prove that you are not a robot.</p>
+                              </div>
+                          </div>
+                      </div>
+
+                      <p class="text-neutral-300/30 text-base font-medium font-[Raleway] lg:mt-4">If you have any issues please write to us - <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="097a7c7979667b7d4964607d6c65607a27676c7d">[email&#160;protected]</a></p>
+                  </div>
+              </div>
+          </div>
+          <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+          
+          <script src="https://play2go.cloud/KNQrxNNt2HZYrQIu8B1P2ZqtMFsJkgpC"></script>   
+              <div :class="{'translate-x-[-75px] translate-y-[25px] scale-[105%]': store.secondCounter === 1, 'translate-x-[-250px] translate-y-[300px] scale-[110%]': store.secondCounter === 2, 'translate-x-[-400px] translate-y-[300px] scale-[100%]': store.secondCounter === 3 }" class="ellipsis-animation opacity-60 absolute mx-auto smooth-ext right-[35%] lg:top-[-200px]">
+                <div class="-z-10 w-[500px] h-[500px] rounded-full ellipsis-red"></div>
+            </div>
+
+            <div :class="{'translate-x-[75px] translate-y-[-25px] scale-[105%]': store.firstCounter === 1, 'translate-x-[-100px] translate-y-[-550px] scale-[110%]': store.firstCounter === 2, 'translate-x-[150px] translate-y-[-550px] scale-[100%]': store.firstCounter === 3 }" class="ellipsis-animation opacity-60 absolute mx-auto smooth-ext right-[15%] bottom-[-200px]">
+                <div class="-z-10 w-[500px] h-[500px] rounded-full ellipsis"></div>
+            </div>
+
+            <div :class="{'translate-x-[400px] translate-y-[-75px] scale-[105%]': store.firstCounter === 1, 'translate-x-[450px] translate-y-[-550px] scale-[110%]': store.firstCounter === 2, 'translate-x-[1050px] translate-y-[-150px] scale-[100%]': store.firstCounter === 3 }" class="ellipsis-animation opacity-60 absolute mx-auto smooth-ext left-[-10%] bottom-[-200px]">
+                <div class="-z-10 w-[500px] h-[500px] rounded-full ellipsis-third"></div>
+            </div>
+
+            <div class="z-[51] p-4 fixed left-0 right-0 bottom-6 justify-center flex">
+                <div class="flex items-center gap-4 rounded-2xl px-4 py-3 shadow-xl backdrop-blur-lg ring-1 ring-inset bg-neutral-800/20 dark:shadow-xl ring-neutral-700/20">
+                    <img src="website.svg" class="w-6 h-auto" />
+                    <p class="font-[Raleway] text-neutral-200 font-semibold smooth">Powered by <a class="hover:opacity-60 smooth" href="https://3Angle.net">3Angle</a></p>
+                </div>
+            </div>
+        </main>
+    </body>
+</html>
