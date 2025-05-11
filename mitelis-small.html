@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>DDoS-Protection</title>
+<style>
+body{margin:0;font-family:sans-serif;background:#0a0a0a;color:#fff;height:100vh;display:flex;justify-content:center;align-items:center;overflow:hidden}
+.container{text-align:center;max-width:500px;padding:20px}
+h1{font-size:28px;margin-bottom:20px}
+.checkbox-container{display:flex;align-items:center;justify-content:center;gap:15px;margin:30px 0;background:rgba(40,40,40,0.3);padding:15px;border-radius:8px}
+.inp-cbx{display:none}
+.cbx{cursor:pointer;background:#fff;border-radius:4px;height:24px;width:24px;display:flex;justify-content:center;align-items:center}
+.cbx svg{display:none}
+.inp-cbx:checked+.cbx svg{display:block}
+.cbx-text{text-align:left}
+.footer{position:fixed;bottom:10px;width:100%;text-align:center;font-size:14px;opacity:0.7}
+.ellipsis{position:fixed;width:300px;height:300px;border-radius:50%;filter:blur(80px);z-index:-1}
+.ellipsis-red{background:rgba(255,0,0,0.2);top:-100px;right:20%}
+.ellipsis-blue{background:rgba(0,0,255,0.2);bottom:-100px;right:10%}
+.ellipsis-green{background:rgba(0,255,0,0.2);bottom:-150px;left:10%}
+</style>
+</head>
+<body>
+<div class="container">
+<h1>Additional verification needed</h1>
+<p>Please click on the checkbox to continue</p>
+<div class="checkbox-container">
+<input class="inp-cbx" id="captcha-verify" type="checkbox" onchange="if(this.checked)verifyUser()">
+<label class="cbx" for="captcha-verify">
+<svg width="12" height="10" viewBox="0 0 12 10"><polyline points="1.5 6 4.5 9 10.5 1" stroke="black" stroke-width="2" fill="none"/></svg>
+</label>
+<div class="cbx-text">
+<p>I'm not a robot</p>
+<small>Click to prove that you are not a robot.</small>
+<div style="display:none">::CAPTCHA_BOX::</div>
+</div>
+</div>
+<small>If you have issues, contact us at support@example.com</small>
+</div>
+<div class="ellipsis ellipsis-red"></div>
+<div class="ellipsis ellipsis-blue"></div>
+<div class="ellipsis ellipsis-green"></div>
+<div class="footer">Powered by <a href="https://beatyx.fun" style="color:#ccc;text-decoration:none">Beatyx PROTECT</a></div>
+<script>
+function verifyUser(){
+const token=new URLSearchParams(window.location.search).get('token');
+if(!token){alert('Error: token not found');return}
+fetch('/verify-captcha',{
+method:'POST',
+headers:{'Content-Type':'application/json'},
+body:JSON.stringify({token:token,answer:'verified',info:{ua:navigator.userAgent,screen:`${screen.width}x${screen.height}`,time:new Date().getTime()}})
+})
+.then(r=>r.json())
+.then(data=>{
+if(data.success){window.location.href='http://localhost?verified=true&token='+token}
+else{alert(data.message||'Verification error')}
+})
+.catch(e=>{console.error(e);alert('Error during verification')})
+}
+</script>
+</body>
+</html> 
